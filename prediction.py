@@ -1,7 +1,7 @@
 from PIL import Image, ImageOps
 from io import BytesIO
+from tensorflow.keras.models import load_model
 import numpy as np
-import tensorflow as tf
 
 # path config
 MODEL1_PATH = 'models/ILY_HOME_IRR_CARE_H_RIGHT/model1'
@@ -11,8 +11,8 @@ LABEL1_PATH = 'models/ILY_HOME_IRR_CARE_H_RIGHT/labels.txt'
 LABEL2_PATH = 'models/FINE_WHY_WAIT/labels.txt'
 
 # load models
-model1 = tf.keras.models.load_model(MODEL1_PATH)
-model2 = tf.keras.models.load_model(MODEL2_PATH)
+model1 = load_model(MODEL1_PATH)
+model2 = load_model(MODEL2_PATH)
 
 # load labels
 def read_label(LABEL_PATH):

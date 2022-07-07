@@ -1,4 +1,4 @@
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File
 from prediction import processImage, predict
 app = FastAPI()
 
