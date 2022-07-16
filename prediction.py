@@ -4,15 +4,12 @@ import tensorflow as tf
 import numpy as np
 
 # path config
-MODEL1_PATH = 'models/ILY_HOME_IRR_CARE_H_RIGHT/model1'
-MODEL2_PATH = 'models/FINE_WHY_WAIT/model2'
+MODEL_PATH = 'model/savedmodel'
 
-LABEL1_PATH = 'models/ILY_HOME_IRR_CARE_H_RIGHT/labels.txt'
-LABEL2_PATH = 'models/FINE_WHY_WAIT/labels.txt'
+LABEL_PATH = 'model/labels.txt'
 
 # load models
-model1 = tf.keras.models.load_model(MODEL1_PATH)
-model2 = tf.keras.models.load_model(MODEL2_PATH)
+model = tf.keras.models.load_model(MODEL_PATH)
 
 # load labels
 def read_label(LABEL_PATH):
@@ -24,11 +21,7 @@ def read_label(LABEL_PATH):
             labels[int(idx)] = label
     return labels
 
-label1 = read_label(LABEL1_PATH)
-label2 = read_label(LABEL2_PATH)
-
-models = [model1, model2]
-labels = [label1, label2]
+label = read_label(LABEL_PATH)
 
 # image processing
 data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
@@ -47,10 +40,9 @@ def processImage(encoded_img):
 # prediction
 def predict(data):
     predictions = []
-    for i in range(len(models)):
-        prediction = models[i].predict(data)
-        label_map = {}
-        for idx, score in enumerate(prediction[0]):
-            label_map[labels[i][idx]] = np.around(score * 100, decimals=2)
-        predictions.append(label_map)
+    prediction = model.predict(data)
+    label_map = {}
+    for idx, score in enumerate(prediction[0]):
+        label_map[label[idx]] = np.around(score * 100, decimals=2)
+    predictions.append(label_map)
     return predictions
